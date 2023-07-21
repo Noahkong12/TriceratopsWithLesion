@@ -235,89 +235,90 @@ if __name__ == '__main__':
              fontsize=16, fontweight="bold", transform=ax3.transAxes,
              horizontalalignment="left", verticalalignment="top")
 
+    print("test")
 
     # -------------------------------------------------------------------------
     # 1-1-1 digit task
-    task = "1-1-1-digit"
-    files = ["{:s}/{:s}_{:s}.npy".format(directory, task, var) for var in ["desired", "model", "state"]]
-    n_gate = 1
-    size = 11
-    print(task)
-    if not np.all([os.path.exists(f) for f in files]):
-        # Random generator initialization
-        np.random.seed(1)
+    # task = "1-1-1-digit"
+    # files = ["{:s}/{:s}_{:s}.npy".format(directory, task, var) for var in ["desired", "model", "state"]]
+    # n_gate = 1
+    # size = 11
+    # print(task)
+    # if not np.all([os.path.exists(f) for f in files]):
+    #     # Random generator initialization
+    #     np.random.seed(1)
 
-        # Training data
-        n = 25000
-        values = np.random.randint(0, 10, n)
-        ticks = np.random.uniform(0, 1, (n, n_gate)) < 0.1
-        train_data_ = generate_data(values, ticks)
-        train_data = convert_data(train_data_, size, noise = 0.)
+    #     # Training data
+    #     n = 25000
+    #     values = np.random.randint(0, 10, n)
+    #     ticks = np.random.uniform(0, 1, (n, n_gate)) < 0.1
+    #     train_data_ = generate_data(values, ticks)
+    #     train_data = convert_data(train_data_, size, noise = 0.)
 
 
-        # Testing data
-        n = 50
-        values = np.random.randint(0, 10, n)
-        ticks = np.random.uniform(0, 1, (n, n_gate)) < 0.1
-        test_data_ = generate_data(values, ticks)
-        test_data = convert_data(test_data_, size, noise = 0.)
+    #     # Testing data
+    #     n = 50
+    #     values = np.random.randint(0, 10, n)
+    #     ticks = np.random.uniform(0, 1, (n, n_gate)) < 0.1
+    #     test_data_ = generate_data(values, ticks)
+    #     test_data = convert_data(test_data_, size, noise = 0.)
 
-        # Model
-        model = generate_model(shape=(train_data["input"].shape[1],1000,n_gate),
-                               sparsity=0.5,
-                               radius=0.1,
-                               scaling=(1.0, 1.0),
-                               leak=1.0,
-                               noise=0.0001)
+    #     # Model
+    #     model = generate_model(shape=(train_data["input"].shape[1],1000,n_gate),
+    #                            sparsity=0.5,
+    #                            radius=0.1,
+    #                            scaling=(1.0, 1.0),
+    #                            leak=1.0,
+    #                            noise=0.0001)
         
-        error = train_model(model, train_data)
-        print("Training error : {0}".format(error))
+    #     error = train_model(model, train_data)
+    #     print("Training error : {0}".format(error))
         
-        error = test_model(model, test_data)
-        print("Testing error : {0}".format(error))
-        np.save(files[0], test_data)
-        np.save(files[1], model["output"])
-        np.save(files[2], model["state"])
-    else:
-        test_data = np.load(files[0])
-        model = {}
-        model["output"] = np.load(files[1])
-        model["state"] = np.load(files[2])
-        error = np.sqrt(np.mean((model["output"] - test_data["output"])**2))
-        print("Testing error : {0}".format(error))
+    #     error = test_model(model, test_data)
+    #     print("Testing error : {0}".format(error))
+    #     np.save(files[0], test_data)
+    #     np.save(files[1], model["output"])
+    #     np.save(files[2], model["state"])
+    # else:
+    #     test_data = np.load(files[0])
+    #     model = {}
+    #     model["output"] = np.load(files[1])
+    #     model["state"] = np.load(files[2])
+    #     error = np.sqrt(np.mean((model["output"] - test_data["output"])**2))
+    #     print("Testing error : {0}".format(error))
 
 
-    # Display
-    data = test_data
+    # # Display
+    # data = test_data
 
-    ax4 = plt.subplot(n_subplots,1,4)
+    # ax4 = plt.subplot(n_subplots,1,4)
 
-    Z = test_data["input"][:, :-1].T
-    ax4.imshow(Z, interpolation='nearest', origin='upper', cmap="gray_r",
-               extent=[0,len(data),1.225,1.4], aspect='auto')
+    # Z = test_data["input"][:, :-1].T
+    # ax4.imshow(Z, interpolation='nearest', origin='upper', cmap="gray_r",
+    #            extent=[0,len(data),1.225,1.4], aspect='auto')
 
     
-    ax4.tick_params(axis='both', which='major', labelsize=8)
-    ax4.plot(data["output"],  color='0.75', lw=1.0)
-    ax4.plot(model["output"], color='0.00', lw=1.5)
-    X, Y = np.arange(len(data)), np.ones(len(data))
-    C = np.zeros((len(data),4))
-    C[:,3] = data["input"][:,-1]
+    # ax4.tick_params(axis='both', which='major', labelsize=8)
+    # ax4.plot(data["output"],  color='0.75', lw=1.0)
+    # ax4.plot(model["output"], color='0.00', lw=1.5)
+    # X, Y = np.arange(len(data)), np.ones(len(data))
+    # C = np.zeros((len(data),4))
+    # C[:,3] = data["input"][:,-1]
 
-    ax4.scatter(X, 1.1*Y, s=1, facecolors=C, edgecolors=None)
-    ax4.text(-3, 1.1, "Ticks:",
-             fontsize=8, transform=ax4.transData,
-             horizontalalignment="right", verticalalignment="center")
+    # ax4.scatter(X, 1.1*Y, s=1, facecolors=C, edgecolors=None)
+    # ax4.text(-3, 1.1, "Ticks:",
+    #          fontsize=8, transform=ax4.transData,
+    #          horizontalalignment="right", verticalalignment="center")
 
-    ax4.yaxis.tick_right()
-    ax4.set_ylabel("Input & Output")
-    ax4.text(0.01, 0.95, "D",
-             fontsize=16, fontweight="bold", transform=ax4.transAxes,
-             horizontalalignment="left", verticalalignment="top")
+    # ax4.yaxis.tick_right()
+    # ax4.set_ylabel("Input & Output")
+    # ax4.text(0.01, 0.95, "D",
+    #          fontsize=16, fontweight="bold", transform=ax4.transAxes,
+    #          horizontalalignment="left", verticalalignment="top")
 
-    ax4.set_ylim(-0.1,1.5)
-    ax4.set_xlim(-15, 315)
-    ax4.set_yticks([0.0,0.2,0.4,0.6,0.8,1.0])
+    # ax4.set_ylim(-0.1,1.5)
+    # ax4.set_xlim(-15, 315)
+    # ax4.set_yticks([0.0,0.2,0.4,0.6,0.8,1.0])
 
 
     plt.tight_layout()
