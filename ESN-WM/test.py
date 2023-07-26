@@ -78,6 +78,8 @@ if __name__ == '__main__':
     ax1.text(0.01, 0.9, "A",
              fontsize=16, fontweight="bold", transform=ax1.transAxes,
              horizontalalignment="left", verticalalignment="top")
+    
+    
 
     
     plt.show()

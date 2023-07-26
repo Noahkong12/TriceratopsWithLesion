@@ -168,5 +168,8 @@ def test_model(model, data, seed=None):
     model["output"] = outputs[1:]
     error = np.sqrt(np.mean((model["output"] - data["output"])**2))
 
+    np.save("W_out.npy", model["W_out"])
+    np.save("internal.npy", internals)
+
     return error
 
