@@ -170,14 +170,20 @@ def test_model(model, data, seed=None):
     model["state"] = internals[1:].T
     model["input"] = inputs[1:]
     model["output"] = outputs[1:]
-    error = np.sqrt(np.mean((model["output"] - data["output"])**2))
 
-    np.save("W_out.npy", model["W_out"])
-<<<<<<< HEAD
-    np.save("internal.npy", internals)
-=======
-    np.save("test_internals.npy", internals)
->>>>>>> bf440aa6239d651a307686d1c27911722fcdcf66
+    error_dic = {}
 
-    return error
+    error_whole = np.sqrt(np.mean((model["output"] - data["output"])**2))
+
+    for i in range(model['output'].shape[1]):
+        err = np.sqrt(np.mean((model["output"][:, i] - data["output"][:, i])**2))
+        name = f'error{i}'
+        error_dic[name] = err
+    error_dic['error_whole'] = error_whole
+
+
+    #np.save("W_out.npy", model["W_out"])
+    #np.save("test_internals.npy", internals)
+
+    return error_dic
 
