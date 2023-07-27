@@ -61,8 +61,12 @@ error0s = []
 error1s = []
 error2s = []
 error_alls = []
-for n in range(1,1000):
-    _, lesion_neurons = identify_neurons_according_test_err('error_lesions.npy', n, 'least significant', 'all')  # _ is a dict, details see identify_neurons_according_test_err.py
+
+selection_method = 'random'
+selection_ouput = 'all'
+
+for n in np.linspace(0, 1000, 101, dtype=int):  # We only taking 101 points here, including 0 and 1000
+    _, lesion_neurons = identify_neurons_according_test_err('error_lesions.npy', n, selection_method, selection_ouput)  # _ is a dict, details see identify_neurons_according_test_err.py
     ## lesion correspoing weights of selected neurons
     lesioned_model = lesion(model, lesion_neurons)
     error_w_lesion = test_model(lesioned_model, test_data, 42)
@@ -70,11 +74,11 @@ for n in range(1,1000):
     error1s.append(error_w_lesion["error1"])
     error2s.append(error_w_lesion["error2"])
     error_alls.append(error_w_lesion["error_whole"])
+ 
+np.save(f"error0s_{selection_method}_{selection_ouput}.npy", error0s)
+np.save(f"error1s_{selection_method}_{selection_ouput}.npy", error1s)
+np.save(f"error2s_{selection_method}_{selection_ouput}.npy", error2s)
+np.save(f"error_alls_{selection_method}_{selection_ouput}.npy", error_alls)
 
-np.save("error0s.npy", error0s)
-np.save("error1s.npy", error1s)
-np.save("error2s.npy", error2s)
-np.save("error_alls.npy", error_alls)
-
-plt.plot(error_alls)
-plt.show()
+#plt.plot(error_alls)
+#plt.show()

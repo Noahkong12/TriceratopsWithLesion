@@ -1,6 +1,6 @@
 import numpy as np
 
-def identify_neurons_according_test_err(test_errors_file, num_neurons, method = 'most significant', focus = "all"):
+def identify_neurons_according_test_err(test_errors_file, num_neurons, method = 'most_significant', focus = "all"):
     '''
     test_errors_file: the file contains test errors from leision one neurons, leisioned by zeroing out W_in, W_rc, W_fb, NOT W_out (to be tested with W_out)
     num_lesion_neurons: the number of neurons to be lesioned
@@ -34,7 +34,7 @@ def identify_neurons_according_test_err(test_errors_file, num_neurons, method = 
     single_neuron_significance_metrics["output_all_sorted_neurons"] = np.argsort(single_neuron_significance_metrics['error_wholes'])[::-1]
 
     if focus == 'output0': 
-        if method == 'least significant': 
+        if method == 'least_significant': 
             lesion_neurons =  single_neuron_significance_metrics["output0_sorted_neurons"][-num_neurons:]
         elif method == 'random': 
             lesion_neurons =  np.random.choice(single_neuron_significance_metrics["output0_sorted_neurons"], size=num_neurons, replace=False)
@@ -42,7 +42,7 @@ def identify_neurons_according_test_err(test_errors_file, num_neurons, method = 
             lesion_neurons =  single_neuron_significance_metrics["output0_sorted_neurons"][:num_neurons]
 
     elif focus == 'output1':
-        if method == 'least significant': 
+        if method == 'least_significant': 
             lesion_neurons =  single_neuron_significance_metrics["output1_sorted_neurons"][-num_neurons:]
         elif method == 'random': 
             lesion_neurons =  np.random.choice(single_neuron_significance_metrics["output1_sorted_neurons"], size=num_neurons, replace=False)
@@ -50,7 +50,7 @@ def identify_neurons_according_test_err(test_errors_file, num_neurons, method = 
             lesion_neurons =  single_neuron_significance_metrics["output1_sorted_neurons"][:num_neurons]
 
     elif focus == 'ouput2':
-        if method == 'least significant': 
+        if method == 'least_significant': 
             lesion_neurons =  single_neuron_significance_metrics["output2_sorted_neurons"][-num_neurons:]
         elif method == 'random': 
             lesion_neurons =  np.random.choice(single_neuron_significance_metrics["output2_sorted_neurons"], size=num_neurons, replace=False)
@@ -59,7 +59,7 @@ def identify_neurons_according_test_err(test_errors_file, num_neurons, method = 
 
 
     else:
-        if method == 'least significant': 
+        if method == 'least_significant': 
             lesion_neurons =  single_neuron_significance_metrics["output_all_sorted_neurons"][-num_neurons:]
         elif method == 'random': 
             lesion_neurons =  np.random.choice(single_neuron_significance_metrics["output_all_sorted_neurons"], size=num_neurons, replace=False)
