@@ -55,5 +55,10 @@ for n in range(1,1000):
     error2s.append(error_w_lesion["error2"])
     error_alls.append(error_w_lesion["error_whole"])
 
+np.save("error0s.npy", error0s)
+np.save("error1s.npy", error1s)
+np.save("error2s.npy", error2s)
+np.save("error_alls.npy", error_alls)
+
 plt.plot(error_alls)
 plt.show()
