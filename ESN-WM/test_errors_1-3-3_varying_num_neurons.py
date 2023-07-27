@@ -1,3 +1,19 @@
+
+'''
+1. This scrip uses the assessment on impact of individual neurons, i.e. test errors when lesion single neuron.
+2. data imported from Tuan's file, which integrated lesions by zero out W_in, W_rc, W_fb
+3. Here, we compare the test errors on lesioned model with lesioned neurons varing from 0 - 1000. 
+4. The neurons can be selected based on "most significant", "least significant", or "random". 
+5. The selection can be based on either "all" (all 3 outputs), "output0", "output1", or "output2"
+6. save the test errors on "all" (all 3 outputs), "output0", "output1", or "output2"
+7. make plots of test errors ***
+
+Note: Figure_1.png shows the test error on all 3 outputs, with lesion_neurons selection scheme ('least significant', 'all'), 
+      we can expect to see that th test error increases wrt number of leision_neurons, 
+      however, this aint the case. I am guessing its the noise in our model can contribute to this? 
+'''
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from data import generate_data, smoothen, str_to_bmp, convert_data 
@@ -46,7 +62,7 @@ error1s = []
 error2s = []
 error_alls = []
 for n in range(1,1000):
-    _, lesion_neurons = identify_neurons_according_test_err('error_lesions.npy', n, 'least significant', 'all')
+    _, lesion_neurons = identify_neurons_according_test_err('error_lesions.npy', n, 'least significant', 'all')  # _ is a dict, details see identify_neurons_according_test_err.py
     ## lesion correspoing weights of selected neurons
     lesioned_model = lesion(model, lesion_neurons)
     error_w_lesion = test_model(lesioned_model, test_data, 42)
