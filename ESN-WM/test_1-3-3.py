@@ -10,6 +10,7 @@ from data import generate_data, smoothen, str_to_bmp, convert_data
 from model_modified import generate_model, train_model, test_model
 from identify_neurons import identify_neurons
 from lesion import lesion
+from identify_neurons_according_test_err import identify_neurons_according_test_err
 import sys
 import os
 
@@ -47,18 +48,46 @@ if __name__ == '__main__':
     error = train_model(model, train_data)
     print("Training error : {0}".format(error))
 
-    # identify the neurons to be lesioned
-    num_lesion_neurons = 1
-    neurons_lesion_dict = identify_neurons(model['W_out'], num_lesion_neurons)   # a dictionary of lesioned neurons, choices made on output/method
-    neurons_lesion = neurons_lesion_dict['random, output 2']
-
-    # lesion correspoing weights of selected neurons
-    lesioned_model = lesion(model, neurons_lesion)
-
     error_wo_lesion = test_model(model, test_data, 42)
-    error_w_lesion = test_model(lesioned_model, test_data, 42)
     print("Testing error without lesion : {0}".format(error_wo_lesion))
+
+
+    ###############################################################################
+    ## identify the neurons to be lesioned
+    #num_lesion_neurons = 1
+    #neurons_lesion_dict = identify_neurons(model['W_out'], num_lesion_neurons)   # a dictionary of lesioned neurons, choices made on output/method
+    #neurons_lesion = neurons_lesion_dict['random, output 2']
+    ###############################################################################
+
+
+    #error_lesions = np.load('error_lesions.npy', allow_pickle=True)
+    _, lesion_neurons = identify_neurons_according_test_err('error_lesions.npy', 5, 'least significant', 'all')
+    ## lesion correspoing weights of selected neurons
+    lesioned_model = lesion(model, lesion_neurons)
+
+    ###############################################################################
+    # lesion 1 neuron at a time
+    #err_dict = {}
+    #err_dict['errlist_0'] = []
+    #err_dict['errlist_1'] = []
+    #err_dict['errlist_2'] = []
+    #err_dict['errlist_all'] = []
+    #for i in range(model['W_out'].shape[1]):
+    #    print(f'{i}th iteration')
+    #    lesioned_model = lesion(model, [i])
+    #    err_dict['errlist_0'].append(test_model(lesioned_model, test_data, 42)['error0'])
+    #    err_dict['errlist_1'].append(test_model(lesioned_model, test_data, 42)['error1'])
+    #    err_dict['errlist_2'].append(test_model(lesioned_model, test_data, 42)['error2'])
+    #    err_dict['errlist_all'].append(test_model(lesioned_model, test_data, 42)['error_whole'])
+
+    #for key, array in err_dict.items():
+    #    np.save(f"{key}.npy", array)
+    ###############################################################################
+    
+    error_w_lesion = test_model(lesioned_model, test_data, 42)
     print("Testing error with lesion : {0}".format(error_w_lesion))
+
+
     # np.save(files[0], test_data)
     # np.save(files[1], model["output"])
     # np.save(files[2], model["state"])
@@ -87,12 +116,12 @@ if __name__ == '__main__':
         ax2.plot(lesioned_model["output"][:,i], lw=1.5, zorder=10)
 
     ax2.text(-25, -1.05, "Ticks:",
-             fontsize=8, transform=ax2.transData,
-             horizontalalignment="right", verticalalignment="center")
+            fontsize=8, transform=ax2.transData,
+            horizontalalignment="right", verticalalignment="center")
     ax2.set_ylim(-1.25,1.25)
     ax2.yaxis.tick_right()
     ax2.set_ylabel("Input & Output")
     ax2.text(0.01, 0.9, "B",
-             fontsize=16, fontweight="bold", transform=ax2.transAxes,
-             horizontalalignment="left", verticalalignment="top")
+            fontsize=16, fontweight="bold", transform=ax2.transAxes,
+            horizontalalignment="left", verticalalignment="top")
     plt.show()

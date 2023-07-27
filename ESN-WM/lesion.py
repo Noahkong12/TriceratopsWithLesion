@@ -1,6 +1,9 @@
 #from model_modified import generate_model, train_model, test_model
 import copy
 def lesion(model, neurons_lesion): 
+    '''
+    neurons_lesion: an np array or list of len > 0
+    '''
 
     # initialize lesioned model
     model_lesion = copy.deepcopy(model)
