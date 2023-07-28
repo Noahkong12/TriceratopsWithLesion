@@ -182,8 +182,8 @@ def test_model(model, data, seed=None):
     error_dic['error_whole'] = error_whole
 
 
-    #np.save("W_out.npy", model["W_out"])
-    #np.save("test_internals.npy", internals)
+    np.save("W_out.npy", model["W_out"])
+    #np.save("test_internals_1_3_3.npy", internals)
 
     return error_dic
 
