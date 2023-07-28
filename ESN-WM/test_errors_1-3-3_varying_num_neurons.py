@@ -55,6 +55,7 @@ print("Training error : {0}".format(error))
 
 error_wo_lesion = test_model(model, test_data, 42)
 print("Testing error without lesion : {0}".format(error_wo_lesion))
+np.save('test_error_wo_lesion', error_wo_lesion)
 
 
 error0s = []
