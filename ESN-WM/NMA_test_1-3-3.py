@@ -60,7 +60,7 @@ if __name__ == '__main__':
     ###############################################################################
 
 
-    #error_lesions = np.load('error_lesions.npy', allow_pickle=True)
+#     error_lesions = np.load('error_lesions.npy', allow_pickle=True)
     _, lesion_neurons = identify_neurons_according_test_err('error_lesions.npy', 5, 'least significant', 'all')
     ## lesion correspoing weights of selected neurons
     lesioned_model = lesion(model, lesion_neurons)
