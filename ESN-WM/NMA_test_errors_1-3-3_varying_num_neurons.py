@@ -81,5 +81,5 @@ np.save(f"error1s_{selection_method}_{selection_ouput}.npy", error1s)
 np.save(f"error2s_{selection_method}_{selection_ouput}.npy", error2s)
 np.save(f"error_alls_{selection_method}_{selection_ouput}.npy", error_alls)
 
-#plt.plot(error_alls)
-#plt.show()
+plt.plot(error_alls)
+plt.show()
